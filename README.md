@@ -1,7 +1,7 @@
 unodos
 ======
 
-UNO – DOS
+UNO – DOS Game Design Document
 
 David Pointeau & John Keith
 
@@ -32,11 +32,14 @@ The goal of the game is to have as many “UNO” and “DOS” when the gird is
 		
                       U       D
                 =>    N   or  O    (top to bottom)
-		                  O       S
+		      O       S
 		                  
 		                      D
 		            =>    U N O  (combos)
 		                      S
+		                      
+		                      
+		                      
 Movement Dynamics:
 
 Unlike 2048 where one movement moves all the tiles to the extremity of the grid when a direction is specified, 
