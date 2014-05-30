@@ -31,7 +31,7 @@ The goal of the game is to have as many “UNO” and “DOS” when the gird is
 	             	=> U N O or D O S  (left to right)
 		
                       U       D
-                =>    N   or  O    (top to bottom)
+                =>    N  or   O    (top to bottom)
 		      O       S
 		                  
 		                      D
