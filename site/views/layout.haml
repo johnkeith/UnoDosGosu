@@ -1,0 +1,14 @@
+!!!
+%html
+%head
+  %meta{"charset" => "utf-8"}
+  %title= @title || "UnoDos"
+  %link{:rel => "stylesheet", :href => "http://yui.yahooapis.com/pure/0.4.2/pure-min.css"}
+  %link{:rel => "stylesheet", :href => "/main-styles.css"} 
+%body
+  / .pure-menu.pure-menu-open.pure-menu-horizontal.pure-menu-fixed
+  /   %a{ :href => "/"}= @banner_name || "UnoDos"
+  = yield
+  %script{:src => "/jquery.js"}
+  %script{:src => "/main.js"}
+  %script{:src => "/unodos.js"}
