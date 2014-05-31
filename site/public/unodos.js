@@ -34,6 +34,7 @@ function startGame() {
   }
 }
 
-startGame();
-debug(board);
+$(document).ready(function(){
+  $('.grid').append("<p>Hello world. Does white space really matter these days? YES</p>");
+});
 

@@ -14,6 +14,8 @@ DONE - A method to select a random letter from the starting letters array and to
 
 DONE - A method to insert a new tile randomly (see benchmarking file in /)
 
+Display contents of array in the browser dynamically
+
 A post route that accepts user input
 
   /?direction=up&position=
