@@ -17,15 +17,26 @@ SCREEN_CENT_WIDTH = SCREEN_WIDTH / 2
 BEGIN_DOTS = SCREEN_CENT_WIDTH - 164
 SCREEN_BOTTOM = SCREEN_HEIGHT - 80
 #switch this to change timer start
-START_FROM = 4
+START_FROM = 0
 #for colored dots
 RADIUS = 16
+#colors
+BG_BLUE = Gosu::Color.new(59,178,247)
+DARK_BLUE = Gosu::Color.new(36,28,119)
+YELLOW = Gosu::Color.new(241, 247, 121)
+TEAL = Gosu::Color.new(34, 193, 167)
+
+FIRST_TIMER = Gosu::Color.new(234, 161, 172)
+SECOND_TIMER = Gosu::Color.new(216, 28, 78)
+THIRD_TIMER = Gosu::Color.new(178, 30, 92)
+FOURTH_TIMER = Gosu::Color.new(170, 0, 48)
+
 
 
 #--------------------------------------------------------------------------#
 class GameWindow < Gosu::Window
 
-  attr_accessor :board, :default_font, :timer, :color_dot
+  attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -65,10 +76,10 @@ class GameWindow < Gosu::Window
     green_tile = Gosu::Color.new(16, 204, 185)
 
     draw_rect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT, blue_background)
-    #draws timer
-      #draw_timer_centered
-    #draws color dots
-    draw_four_dots
+
+    draw_white_dots
+    #draw color dos over white dots every second
+    draw_color_dots
 
     @game_board.board.each do |row|
       row.each do |tile|
@@ -98,7 +109,7 @@ class GameWindow < Gosu::Window
     @game_board[row][col].content = letter
   end
 
-  def draw_four_dots
+  def draw_white_dots
     width_increment = BEGIN_DOTS
     4.times do
       @color_dot.draw_rot(width_increment += 60, SCREEN_BOTTOM, 1, 0, 0, 0,
@@ -106,13 +117,47 @@ class GameWindow < Gosu::Window
     end
   end
 
+  def draw_color_dots
+
+    time = @timer.update_time
+
+    if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03" || time == "Time: 04")
+      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, FIRST_TIMER, :default)
+    end
+    if (time == "Time: 02" || time == "Time 03" || time == "Time: 04")
+      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, FIRST_TIMER, :default)
+      @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, SECOND_TIMER, :default)
+    end
+    if (time == "Time: 03" || time == "Time: 04")
+      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, FIRST_TIMER, :default)
+      @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, SECOND_TIMER, :default)
+      @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, THIRD_TIMER, :default)
+    end
+    if (time == "Time: 04")
+      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, FIRST_TIMER, :default)
+      @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, SECOND_TIMER, :default)
+      @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, THIRD_TIMER, :default)
+      @color_dot.draw_rot(BEGIN_DOTS + 240, SCREEN_BOTTOM, 1, 0, 0, 0,
+                          1, 1, FOURTH_TIMER, :default)
+    end
+  end
+
 
 
   def draw_timer_centered
-    timer_to_display = timer.update_time
-    x = (SCREEN_WIDTH - default_font.text_width(timer_to_display)) / 2
+    @timer_to_display = @timer.update_time
+    x = (SCREEN_WIDTH - default_font.text_width(@timer_to_display)) / 2
     y = SCREEN_BOTTOM
-    draw_text(x, y, timer_to_display, default_font)
+    draw_text(x, y, @timer_to_display, default_font)
   end
 
   def draw_text(x, y, text, font)
