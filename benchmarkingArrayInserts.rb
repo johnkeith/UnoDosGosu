@@ -1,5 +1,5 @@
 require 'benchmark'
-each_index.select
+
 test_board = [[" ","4","4","2"],
               ["4","2","2"," "],
               ["2","2"," ","2"],

@@ -2,8 +2,8 @@ require_relative 'board'
 require 'pry'
 require 'gosu'
 
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 721
+SCREEN_HEIGHT = 721
 CELL_SIZE_X = SCREEN_WIDTH / 7
 CELL_SIZE_Y = SCREEN_HEIGHT / 7
 TOP_X = CELL_SIZE_X
@@ -18,6 +18,18 @@ class GameWindow < Gosu::Window
     @default_font = Gosu::Font.new(self, "Arial", 48)
     @game_board = Board.new
     self.caption = "UnoDos"
+  end
+
+  def button_down(key)
+    case key
+    when Gosu::MsLeft
+      puts "#{mouse_x}, #{mouse_y}"
+      find_emtpy
+    end
+  end
+
+  def needs_cursor?
+    true
   end
 
   # update() is called 60 times per second (by default) 
@@ -42,14 +54,31 @@ class GameWindow < Gosu::Window
       row.each do |tile|
         draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, tile.color)
         draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, Gosu::Color::WHITE)
+        # use draw_rot to put image centered on top of coordinates
       end
     end
 
-    # draw_rect(TOP_X,TOP_Y,200,200,green_tile)
-    
-    # draw_tile_letter(250,250,"U",@default_font,Gosu::Color::WHITE)
 
 
+  end
+
+  def find_emtpy
+    empty_space = nil
+    while empty_space.nil?
+      random_row = rand(5)
+      random_col = rand(5)
+      if @game_board.board[random_row][random_col].content == nil
+        empty_space = [random_row, random_col]
+        puts "Found an empty space at #{random_row}, #{random_col}"
+        puts "#{@game_board.board[random_row][random_col].content}"
+        insert_successful = true
+      end
+    end
+  end
+
+  def insert_tile(row, col)
+    letter = @game_board.random_letter
+    @game_board[row][col].content = letter
   end
 
   def draw_rect(x, y, width, height, color)

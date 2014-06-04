@@ -4,13 +4,18 @@ class Board
   # a board has many tiles
   # a board must be filled at the start of the game
 
-  attr_accessor :board
+  attr_accessor :board, :letters
 
   def initialize
-    @board = build_board
+    @board = self.class.build_board
+    @letters = ["U","N","O","D","O",
+                "U","N","O","O","S",
+                "U","N","O","D","S",
+                "U","O","O","D","S",
+                "O","N","O","D","S"];
   end
 
-  def build_board
+  def self.build_board
     board = []
     row_arr = []
     (0..4).each do |row|
@@ -24,6 +29,10 @@ class Board
 
     end
     board
+  end
+
+  def random_letter
+    @letters.shuffle.pop
   end
 
 end
