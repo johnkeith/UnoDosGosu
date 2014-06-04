@@ -1,5 +1,6 @@
 require_relative "tile"
 
+
 class Board
   # a board has many tiles
   # a board must be filled at the start of the game
