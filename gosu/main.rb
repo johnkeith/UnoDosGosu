@@ -15,7 +15,7 @@ TOP_X = CELL_SIZE_X
 TOP_Y = CELL_SIZE_Y
 SCREEN_CENT_WIDTH = SCREEN_WIDTH / 2
 BEGIN_DOTS = SCREEN_CENT_WIDTH - 164
-SCREEN_TOP = 120
+SCREEN_TOP = 42
 SCREEN_BOTTOM = SCREEN_HEIGHT - 80
 #switch this to change timer start
 START_FROM = 0
@@ -36,7 +36,7 @@ FOURTH_TIMER = Gosu::Color.new(160, 17, 27)
 #--------------------------------------------------------------------------#
 class GameWindow < Gosu::Window
 
-  attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image
+  attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image, :play_button
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -46,6 +46,11 @@ class GameWindow < Gosu::Window
     @timer = TimerDown.new
     @color_dot = Gosu::Image.new(self, Circle.new(RADIUS), false)
 
+    @arrow_up = Gosu::Image.new(self, "assets/up_arrow.png", false)
+    @arrow_right = Gosu::Image.new(self, "assets/right_arrow.png", false)
+    @arrow_left = Gosu::Image.new(self, "assets/left_arrow.png", false)
+    @arrow_down = Gosu::Image.new(self, "assets/down_arrow.png", false)
+    @play_button = Gosu::Image.new(self, "assets/playbutton.png",false)
   end
 
   def button_down(key)
@@ -169,25 +174,24 @@ class GameWindow < Gosu::Window
 
     draw_rect(0,0, SCREEN_WIDTH, SCREEN_HEIGHT, blue_background)
 
-    arrow_up = Gosu::Image.new(self, "assets/up_arrow.png", false)
-    arrow_right = Gosu::Image.new(self, "assets/right_arrow.png", false)
-    arrow_left = Gosu::Image.new(self, "assets/left_arrow.png", false)
-    arrow_down = Gosu::Image.new(self, "assets/down_arrow.png", false)
-
+    #draw white dots
     draw_white_dots
-    #draw color dos over white dots every second
+    #draw color dots over white dots every second
     draw_color_dots
     #draw play button
+    draw_play_butt
+
+
 
 
    @game_board.board.each do |row|
       row.each do |tile|
         if tile.content != nil
           draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, TEAL)
-          arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 1, 0)
-          arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 1, 0)
-          arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 1, 0)
-          arrow_down.draw_rot(tile.center_bottom[0], tile.center_bottom[1], 1, 0)
+          @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 1, 0)
+          @arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 1, 0)
+          @arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 1, 0)
+          @arrow_down.draw_rot(tile.center_bottom[0], tile.center_bottom[1], 1, 0)
         else
           draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, tile.color)
           draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, Gosu::Color::WHITE)
@@ -227,6 +231,10 @@ class GameWindow < Gosu::Window
     end
   end
 
+  def draw_play_butt
+    @play_button.draw_rot(SCREEN_CENT_WIDTH, SCREEN_TOP, 1, 0)
+  end
+
   def draw_color_dots
 
     time = @timer.update_time
@@ -260,14 +268,6 @@ class GameWindow < Gosu::Window
                           1, 1, FOURTH_TIMER, :default)
     end
   end
-
-#-------------------------------USED FOR TESTING--------------------------#
-  # def draw_timer_centered
-  #   @timer_to_display = @timer.update_time
-  #   x = (SCREEN_WIDTH - default_font.text_width(@timer_to_display)) / 2
-  #   y = SCREEN_BOTTOM
-  #   draw_text(x, y, @timer_to_display, default_font)
-  # end
 
   def draw_text(x, y, text, font)
     font.draw(text, x, y, 1, 1, 1, Gosu::Color::BLACK)
