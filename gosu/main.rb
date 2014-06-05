@@ -41,7 +41,7 @@ class GameWindow < Gosu::Window
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
-    @default_font = Gosu::Font.new(self, "Arial", 48)
+    @default_font = Gosu::Font.new(self, "Impact", 56)
     @game_board = Board.new
     self.caption = "UnoDos"
     @timer = TimerDown.new
@@ -61,9 +61,11 @@ class GameWindow < Gosu::Window
   def button_down(key)
     case key
     when Gosu::MsLeft
+      p determine_row_clicked(mouse_x, mouse_y)
         if play_clicked?([mouse_x, mouse_y])
           puts "The mouse clicked at #{mouse_x}, #{mouse_y}"
           @state = :running
+          3.times {insert_tile(find_emtpy)}
         end
     end
   end
@@ -113,7 +115,11 @@ class GameWindow < Gosu::Window
   end
 
    def play_clicked?(click)
-    (click[0] - SCREEN_CENT_WIDTH.abs <= 114) && (click[1] - SCREEN_TOP.abs <= 80)
+    if @state == :begin
+      (click[0] - SCREEN_CENT_WIDTH.abs <= 114) && (click[1] - SCREEN_TOP.abs <= 80)
+    else
+      false
+    end
   end
 
 
@@ -201,6 +207,7 @@ class GameWindow < Gosu::Window
       row.each do |tile|
         if tile.content != nil
           draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, TEAL)
+          draw_text(tile.center[0] - 12, tile.center[1] - 20, tile.content, @default_font)
           # @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 1, 0)
           # @arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 1, 0)
           # @arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 1, 0)
@@ -280,7 +287,7 @@ class GameWindow < Gosu::Window
                             1, 1, FOURTH_TIMER, :default)
 
         @counter += 1
-        puts @counter
+        # puts @counter
         if @counter.between?(58, 61)
           @counter = 0
           insert_tile(find_emtpy)
