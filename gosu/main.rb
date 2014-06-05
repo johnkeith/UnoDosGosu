@@ -36,7 +36,8 @@ FOURTH_TIMER = Gosu::Color.new(160, 17, 27)
 #--------------------------------------------------------------------------#
 class GameWindow < Gosu::Window
 
-  attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image, :play_button
+  attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image, :play_button, :state,
+                :time, :counter
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -45,22 +46,25 @@ class GameWindow < Gosu::Window
     self.caption = "UnoDos"
     @timer = TimerDown.new
     @color_dot = Gosu::Image.new(self, Circle.new(RADIUS), false)
+    @time = ""
 
     @arrow_up = Gosu::Image.new(self, "assets/up_arrow.png", false)
     @arrow_right = Gosu::Image.new(self, "assets/right_arrow.png", false)
     @arrow_left = Gosu::Image.new(self, "assets/left_arrow.png", false)
     @arrow_down = Gosu::Image.new(self, "assets/down_arrow.png", false)
     @play_button = Gosu::Image.new(self, "assets/playbutton.png",false)
+
+    @state = :begin
+    @counter = 0
   end
 
   def button_down(key)
     case key
     when Gosu::MsLeft
-      puts "The mouse clicked at #{mouse_x}, #{mouse_y}"
-      #find_emtpy
-      determine_row_clicked(mouse_x, mouse_y)
-      insert = find_emtpy
-      insert_tile(insert)
+        if play_clicked?([mouse_x, mouse_y])
+          puts "The mouse clicked at #{mouse_x}, #{mouse_y}"
+          @state = :running
+        end
     end
   end
 
@@ -107,6 +111,12 @@ class GameWindow < Gosu::Window
   def direction_clicked?(click, arrow_coord)
     (click[0] - arrow_coord[0]).abs <= 25 && (click[1] - arrow_coord[1]).abs <= 25
   end
+
+   def play_clicked?(click)
+    (click[0] - SCREEN_CENT_WIDTH.abs <= 114) && (click[1] - SCREEN_TOP.abs <= 80)
+  end
+
+
 
   def move_in_direction(tile, arrow_coord)
     p tile
@@ -160,6 +170,7 @@ class GameWindow < Gosu::Window
   # and should contain the main game logic: move objects,
   # handle collisions, etc.
   def update
+
   end
 
   # draw() is called afterwards and whenever the window
@@ -177,21 +188,23 @@ class GameWindow < Gosu::Window
     #draw white dots
     draw_white_dots
     #draw color dots over white dots every second
-    draw_color_dots
+    if @state == :running
+      draw_color_dots
+    end
+
     #draw play button
-    draw_play_butt
-
-
-
+    if @state == :begin
+      draw_play_butt
+    end
 
    @game_board.board.each do |row|
       row.each do |tile|
         if tile.content != nil
           draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, TEAL)
-          @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 1, 0)
-          @arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 1, 0)
-          @arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 1, 0)
-          @arrow_down.draw_rot(tile.center_bottom[0], tile.center_bottom[1], 1, 0)
+          # @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 1, 0)
+          # @arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 1, 0)
+          # @arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 1, 0)
+          # @arrow_down.draw_rot(tile.center_bottom[0], tile.center_bottom[1], 1, 0)
         else
           draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, tile.color)
           draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, Gosu::Color::WHITE)
@@ -212,7 +225,7 @@ class GameWindow < Gosu::Window
         empty_space = [random_row, random_col]
         # puts "Found an empty space at #{random_row}, #{random_col}"
         # puts "#{@game_board.board[random_row][random_col].content}"
-        # insert_successful = true
+        # insert_successful = tru
       end
     end
     empty_space
@@ -236,37 +249,43 @@ class GameWindow < Gosu::Window
   end
 
   def draw_color_dots
+       @time = @timer.update_time
+      if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03" || time == "Time: 04")
+        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, FIRST_TIMER, :default)
+      end
+      if (time == "Time: 02" || time == "Time 03" || time == "Time: 04")
+        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, FIRST_TIMER, :default)
+        @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, SECOND_TIMER, :default)
+      end
+      if (time == "Time: 03" || time == "Time: 04")
+        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, FIRST_TIMER, :default)
+        @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, SECOND_TIMER, :default)
+        @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, THIRD_TIMER, :default)
+      end
 
-    time = @timer.update_time
+      if (time == "Time: 04")
+        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, FIRST_TIMER, :default)
+        @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, SECOND_TIMER, :default)
+        @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, THIRD_TIMER, :default)
+        @color_dot.draw_rot(BEGIN_DOTS + 240, SCREEN_BOTTOM, 1, 0, 0, 0,
+                            1, 1, FOURTH_TIMER, :default)
 
-    if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03" || time == "Time: 04")
-      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, FIRST_TIMER, :default)
-    end
-    if (time == "Time: 02" || time == "Time 03" || time == "Time: 04")
-      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, FIRST_TIMER, :default)
-      @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, SECOND_TIMER, :default)
-    end
-    if (time == "Time: 03" || time == "Time: 04")
-      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, FIRST_TIMER, :default)
-      @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, SECOND_TIMER, :default)
-      @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, THIRD_TIMER, :default)
-    end
-    if (time == "Time: 04")
-      @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, FIRST_TIMER, :default)
-      @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, SECOND_TIMER, :default)
-      @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, THIRD_TIMER, :default)
-      @color_dot.draw_rot(BEGIN_DOTS + 240, SCREEN_BOTTOM, 1, 0, 0, 0,
-                          1, 1, FOURTH_TIMER, :default)
-    end
+        @counter += 1
+        puts @counter
+        if @counter.between?(58, 61)
+          @counter = 0
+          insert_tile(find_emtpy)
+        end
+      end
   end
 
   def draw_text(x, y, text, font)
