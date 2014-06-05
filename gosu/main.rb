@@ -6,7 +6,12 @@ require 'gosu'
 require 'rubygems'
 
 
-#-----------------------------------CONSTANTS-----------------------------#
+#-------------------------------------------------------------------------------------------------#
+#                                                                                                 #
+#                                                CONSTANTS                                        #
+#                                                                                                 #
+#-------------------------------------------------------------------------------------------------#
+
 SCREEN_WIDTH = 721
 SCREEN_HEIGHT = 721
 CELL_SIZE_X = SCREEN_WIDTH / 7
@@ -15,25 +20,33 @@ TOP_X = CELL_SIZE_X
 TOP_Y = CELL_SIZE_Y
 SCREEN_CENT_WIDTH = SCREEN_WIDTH / 2
 BEGIN_DOTS = SCREEN_CENT_WIDTH - 164
-SCREEN_TOP = 42
+SCREEN_TOP = 48
 SCREEN_BOTTOM = SCREEN_HEIGHT - 80
 #switch this to change timer start
 START_FROM = 0
 #for colored dots
-RADIUS = 16
+RADIUS = 13
 #colors
 BG_BLUE = Gosu::Color.new(59,178,247)
 DARK_BLUE = Gosu::Color.new(36,28,119)
 YELLOW = Gosu::Color.new(241, 247, 121)
 TEAL = Gosu::Color.new(34, 193, 167)
 
+#COLORED DOTS SPECIFIC COLORS
 FIRST_TIMER = Gosu::Color.new(36, 214, 23)
 SECOND_TIMER = Gosu::Color.new(246, 255, 10)
 THIRD_TIMER = Gosu::Color.new(49, 0, 155)
 FOURTH_TIMER = Gosu::Color.new(160, 17, 27)
 
+#NUMBER OF WHITE DOTS
+NUM_WHITE_DOTS = 4
 
-#--------------------------------------------------------------------------#
+
+#-------------------------------------------------------------------------------------------------#
+#                                                                                                 #
+#                                                  MAIN                                           #
+#                                                                                                 #
+#-------------------------------------------------------------------------------------------------#
 class GameWindow < Gosu::Window
 
   attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image, :play_button, :state,
@@ -61,7 +74,7 @@ class GameWindow < Gosu::Window
   def button_down(key)
     case key
     when Gosu::MsLeft
-      p determine_row_clicked(mouse_x, mouse_y)
+      determine_row_clicked(mouse_x, mouse_y)
         if play_clicked?([mouse_x, mouse_y])
           puts "The mouse clicked at #{mouse_x}, #{mouse_y}"
           @state = :running
@@ -92,10 +105,11 @@ class GameWindow < Gosu::Window
 
     p "The closest arrow is at #{closest_arrow}"
 
-    tile_index = find_tile_index(all_coord, closest_arrow)
-    tile = @game_board.board[row][tile_index]
+    column = find_tile_index(all_coord, closest_arrow)
+    tile = @game_board.board[row][column]
+    tile_position = [row, column]
 
-    [closest_arrow, tile]
+    [closest_arrow, tile, tile_position]
   end
 
   def find_tile_index(all_coord, arrow_coord)
@@ -122,26 +136,75 @@ class GameWindow < Gosu::Window
     end
   end
 
-
-
-  def move_in_direction(tile, arrow_coord)
+  def move_in_direction(tile, arrow_coord, tile_position)
     p tile
     p arrow_coord
     if tile.center_top == arrow_coord
-      p "move_up"
-    elsif tile.center_left == arrow_coord
-      p "move_left"
-    elsif tile.center_bottom == arrow_coord
-      p "move_down"
+      check(:up, tile_position) ? move(:up, tile_position) : false #here to disablle arrows return
     elsif tile.center_right == arrow_coord
-      p "move_right"
+      check(:right, tile_position) ? move(:right, tile_position) : false
+    elsif tile.center_bottom == arrow_coord
+      check(:down, tile_position) ? move(:down, tile_position) : false
+    elsif tile.center_left == arrow_coord
+      check(:left, tile_position) ? move(:left, tile_position) : false
     else
       "Some kinda error. Your tile was #{tile.to_s} and your arrow_coord were #{arrow_coord}."
     end
   end
 
-  def move_right(tile)
+  def check(direction, tile_position)
+    if direction == :up
+      if @game_board.board[tile_position[0]-1][tile_position[1]].content == "empty"
+        return true
+      else
+        return false
+      end
+    end
+    if direction == :right
+      if @game_board.board[tile_position[0]][tile_position[1]+1].content == "empty"
+        return true
+      else
+        return false
+      end
+    end
+    if direction == :down
+      if @game_board.board[tile_position[0]+1][tile_position[1]].content == "empty"
+        return true
+      else
+        return false
+      end
+    end
+    if direction == :left
+      if @game_board.board[tile_position[0]][tile_position[1]-1].content == "empty"
+        return true
+      else
+        return false
+      end
+    end
   end
+
+  def move(direction, tile_position)
+
+    tile_content = @game_board.board[tile_position[0]][tile_position[1]].content
+    if direction == :up
+      @game_board.board[tile_position[0]][tile_position[1]].content = "empty"
+      @game_board.board[tile_position[0]-1][tile_position[1]].content = tile_content
+    end
+    if direction == :right
+      @game_board.board[tile_position[0]][tile_position[1]].content = "empty"
+      @game_board.board[tile_position[0]][tile_position[1]+1].content = tile_content
+    end
+    if direction == :down
+      @game_board.board[tile_position[0]][tile_position[1]].content = "empty"
+      @game_board.board[tile_position[0]+1][tile_position[1]].content = tile_content
+    end
+    if direction == :left
+      @game_board.board[tile_position[0]][tile_position[1]].content = "empty"
+      @game_board.board[tile_position[0]][tile_position[1]-1].content = tile_content
+    end
+
+  end
+
 
   def tile_from_click(row, x, y)
     closest = find_closest_arrow(row, x, y)
@@ -151,7 +214,7 @@ class GameWindow < Gosu::Window
       #   tile.center_right == closest || tile.center_bottom == closest
       # end
       # move_in_direction(selected, closest)
-      move_in_direction(closest[1], closest[0])
+      move_in_direction(closest[1], closest[0], closest[2])
     end
   end
 
@@ -179,6 +242,12 @@ class GameWindow < Gosu::Window
 
   end
 
+
+#-----------------------------------------------------------------------------------------------#
+#                                                                                               #
+#                                              MAIN DRAW                                        #
+#                                                                                               #
+#-----------------------------------------------------------------------------------------------#
   # draw() is called afterwards and whenever the window
   # needs redrawing for other reasons, and may also be
   # skipped every other time if the FPS go too low.
@@ -205,9 +274,10 @@ class GameWindow < Gosu::Window
 
    @game_board.board.each do |row|
       row.each do |tile|
-        if tile.content != nil
-          draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, TEAL)
-          draw_text(tile.center[0] - 12, tile.center[1] - 20, tile.content, @default_font)
+        if tile.content != "empty"
+          draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, Gosu::Color::WHITE)
+          draw_text(tile.center[0] - 12, tile.center[1] - 30, tile.content, @default_font)
+          draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, TEAL)
           # @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 1, 0)
           # @arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 1, 0)
           # @arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 1, 0)
@@ -222,13 +292,13 @@ class GameWindow < Gosu::Window
       end
     end
   end
-
+#------------------------------------------------------------------------------------------------#
   def find_emtpy
     empty_space = nil
     while empty_space.nil?
       random_row = rand(5)
       random_col = rand(5)
-      if @game_board.board[random_row][random_col].content == nil
+      if @game_board.board[random_row][random_col].content == "empty"
         empty_space = [random_row, random_col]
         # puts "Found an empty space at #{random_row}, #{random_col}"
         # puts "#{@game_board.board[random_row][random_col].content}"
@@ -242,10 +312,14 @@ class GameWindow < Gosu::Window
     letter = @game_board.random_letter
     @game_board.board[coords[0]][coords[1]].content = letter
   end
-
+#------------------------------------------------------------------------------------------------#
+#                                                                                                #
+#                                       DRAW    METHODS                                          #
+#                                                                                                #
+#------------------------------------------------------------------------------------------------#
   def draw_white_dots
     width_increment = BEGIN_DOTS
-    4.times do
+    NUM_WHITE_DOTS.times do
       @color_dot.draw_rot(width_increment += 60, SCREEN_BOTTOM, 1, 0, 0, 0,
                          1, 1, Gosu::Color::WHITE,:default)
     end
@@ -287,7 +361,6 @@ class GameWindow < Gosu::Window
                             1, 1, FOURTH_TIMER, :default)
 
         @counter += 1
-        # puts @counter
         if @counter.between?(58, 61)
           @counter = 0
           insert_tile(find_emtpy)

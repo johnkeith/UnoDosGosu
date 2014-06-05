@@ -8,7 +8,7 @@ class Tile
   attr_accessor :x, :y, :content, :color,
                 :center_top, :center_left, :center_bottom, :center_right, :center
 
-  def initialize(x, y, content = nil)
+  def initialize(x, y, content = "empty")
     @x = x
     @y = y
     @content = content
