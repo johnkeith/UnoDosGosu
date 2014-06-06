@@ -39,7 +39,7 @@ module Click
     end
 
     column = find_col_in_row(all_coord, closest_arrow)
-    
+
     tile = @game_board.board[row][column]
     tile_position = [row, column]
     [tile, closest_arrow, tile_position]
@@ -63,6 +63,14 @@ module Click
 
   def play_clicked?(click)
     if @state == :begin
+      (click[0] - SCREEN_CENT_WIDTH.abs <= 114) && (click[1] - SCREEN_TOP.abs <= 80)
+    else
+      false
+    end
+  end
+
+  def pause_clicked?(click)
+    if @state == :running
       (click[0] - SCREEN_CENT_WIDTH.abs <= 114) && (click[1] - SCREEN_TOP.abs <= 80)
     else
       false
