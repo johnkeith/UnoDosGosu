@@ -77,6 +77,7 @@ class TimerDown
   end
 
   def update_time
+
     if @state == :running
       if (Gosu::milliseconds - @last_time) / 1000 == 1
         @seconds += 1
