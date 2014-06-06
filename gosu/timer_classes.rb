@@ -83,7 +83,7 @@ class TimerDown
         @last_time = Gosu::milliseconds()
       end
 
-      if @seconds > 4
+      if @seconds > 3
         reset
       end
     end

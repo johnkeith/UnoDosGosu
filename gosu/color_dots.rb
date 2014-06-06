@@ -1,3 +1,14 @@
+#-------------------------------------------------------------------------------------#
+#                                                                                     #
+#                                    CIRCLE CLASS                                     #
+#                                                                                     #
+#-------------------------------------------------------------------------------------#
+
+# This class takes care of building a circle with a specfied radius. In our implementation
+# we specify the radius in a constant situated in main.rb. This class is used in association
+# with the timer class in order to create the dots used for time.
+
+
 class Circle
   attr_reader :columns, :rows
 

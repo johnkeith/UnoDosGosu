@@ -1,3 +1,14 @@
+#-------------------------------------------------------------------------------------#
+#                                                                                     #
+#                                     BOARD CLASS                                     #
+#                                                                                     #
+#-------------------------------------------------------------------------------------#
+
+# Takes of care of filling in board with different tiles containing the letters
+#"U", "N", "O", "D", "S". The characteristics of a tile are located in the tile.rb file
+
+
+
 require_relative "tile"
 
 

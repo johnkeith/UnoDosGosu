@@ -1,3 +1,13 @@
+#-------------------------------------------------------------------------------------#
+#                                                                                     #
+#                                    TILE   CLASS                                     #
+#                                                                                     #
+#-------------------------------------------------------------------------------------#
+
+# In this class, the characteristics of a tile are specified: the size, attributes for positioning
+# of arrows, movement, etc...
+
+
 class Tile
   # a tile has an X and a Y position
   # a tile has a letter associated or is empty

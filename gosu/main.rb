@@ -20,7 +20,7 @@ CELL_SIZE_Y = SCREEN_HEIGHT / 7
 TOP_X = CELL_SIZE_X
 TOP_Y = CELL_SIZE_Y
 SCREEN_CENT_WIDTH = SCREEN_WIDTH / 2
-BEGIN_DOTS = SCREEN_CENT_WIDTH - 164
+BEGIN_DOTS = SCREEN_CENT_WIDTH - 134
 SCREEN_TOP = 48
 SCREEN_BOTTOM = SCREEN_HEIGHT - 80
 #switch this to change timer start
@@ -40,7 +40,7 @@ THIRD_TIMER = Gosu::Color.new(49, 0, 155)
 FOURTH_TIMER = Gosu::Color.new(160, 17, 27)
 
 #NUMBER OF WHITE DOTS
-NUM_WHITE_DOTS = 4
+NUM_WHITE_DOTS = 3
 
 
 #-------------------------------------------------------------------------------------------------#
@@ -187,41 +187,66 @@ class GameWindow < Gosu::Window
 
   def draw_color_dots
        @time = @timer.update_time
-      if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03" || time == "Time: 04")
+
+
+      if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03")
         @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
                             1, 1, FIRST_TIMER, :default)
       end
-      if (time == "Time: 02" || time == "Time 03" || time == "Time: 04")
+      if (time == "Time: 02" || time == "Time 03")
         @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
                             1, 1, FIRST_TIMER, :default)
         @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
                             1, 1, SECOND_TIMER, :default)
       end
-      if (time == "Time: 03" || time == "Time: 04")
+      if (time == "Time: 03")
         @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
                             1, 1, FIRST_TIMER, :default)
         @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
                             1, 1, SECOND_TIMER, :default)
         @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
                             1, 1, THIRD_TIMER, :default)
-      end
-
-      if (time == "Time: 04")
-        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, FIRST_TIMER, :default)
-        @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, SECOND_TIMER, :default)
-        @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, THIRD_TIMER, :default)
-        @color_dot.draw_rot(BEGIN_DOTS + 240, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, FOURTH_TIMER, :default)
-
         @counter += 1
         if @counter.between?(58, 61)
           @counter = 0
           insert_tile(find_emtpy)
         end
       end
+      # if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03" || time == "Time: 04")
+      #   @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, FIRST_TIMER, :default)
+      # end
+      # if (time == "Time: 02" || time == "Time 03" || time == "Time: 04")
+      #   @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, FIRST_TIMER, :default)
+      #   @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, SECOND_TIMER, :default)
+      # end
+      # if (time == "Time: 03" || time == "Time: 04")
+      #   @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, FIRST_TIMER, :default)
+      #   @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, SECOND_TIMER, :default)
+      #   @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, THIRD_TIMER, :default)
+      # end
+
+      # if (time == "Time: 04")
+      #   @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, FIRST_TIMER, :default)
+      #   @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, SECOND_TIMER, :default)
+      #   @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, THIRD_TIMER, :default)
+      #   @color_dot.draw_rot(BEGIN_DOTS + 240, SCREEN_BOTTOM, 1, 0, 0, 0,
+      #                       1, 1, FOURTH_TIMER, :default)
+
+      #   @counter += 1
+      #   if @counter.between?(58, 61)
+      #     @counter = 0
+      #     insert_tile(find_emtpy)
+      #   end
+      # end
   end
 
   def draw_text(x, y, text, font)
