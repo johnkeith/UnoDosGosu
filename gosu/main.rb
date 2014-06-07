@@ -65,6 +65,7 @@ class GameWindow < Gosu::Window
     @timer = TimerDown.new
     @pause_timer = PauseTimer.new
     @color_dot = Gosu::Image.new(self, Circle.new(RADIUS), false)
+    @color_img = Gosu::Image.new(self, "assets/yellow_circle.png", false)
     @time = ""
 
     @board_bg = Gosu::Image.new(self, "assets/board_bg.png", false)
@@ -303,22 +304,29 @@ class GameWindow < Gosu::Window
 
 
       if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03")
-        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, UFOGREEN, :default)
+        # @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+        #                     1, 1, UFOGREEN, :default)
+        @color_img.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 3, 0)
       end
       if (time == "Time: 02" || time == "Time 03")
-        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, UFOGREEN, :default)
-        @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, STRAWBERRY, :default)
+        # @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+        #                     1, 1, UFOGREEN, :default)
+        # @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+        #                     1, 1, STRAWBERRY, :default)
+        @color_img.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 3, 0)
+        @color_img.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 3, 0)
+
       end
       if (time == "Time: 03")
-        @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, UFOGREEN, :default)
-        @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, STRAWBERRY, :default)
-        @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
-                            1, 1, BLUE, :default)
+        # @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
+        #                     1, 1, UFOGREEN, :default)
+        # @color_dot.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 1, 0, 0, 0,
+        #                     1, 1, STRAWBERRY, :default)
+        # @color_dot.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 1, 0, 0, 0,
+        #                     1, 1, BLUE, :default)
+        @color_img.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 3, 0)
+        @color_img.draw_rot(BEGIN_DOTS + 120, SCREEN_BOTTOM, 3, 0)
+        @color_img.draw_rot(BEGIN_DOTS + 180, SCREEN_BOTTOM, 3, 0)
 
         # THIS IS WHERE TILES ARE GENERATED EVERY 3 SECONDS
         @counter += 1
