@@ -96,9 +96,8 @@ class GameWindow < Gosu::Window
         @game_board.colorize_words(full_words)
       end
       if play_clicked?([mouse_x, mouse_y])
-        puts "The mouse clicked at #{mouse_x}, #{mouse_y}"
         @state = :running
-        3.times {insert_tile(find_emtpy)}
+        7.times {insert_tile(find_emtpy)}
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
       end
@@ -180,7 +179,9 @@ class GameWindow < Gosu::Window
           
           draw_tile_letter(tile.center[0] - 10, tile.center[1] - 33, tile.content, @default_font, Gosu::Color::WHITE)
           # draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, TEAL)
-          begin
+          if tile.locked
+            next
+          else
             if surrounding_tile_empty?(@game_board.board, :up, [row_idx, col_idx])
               @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 3, 0)
             end
@@ -192,10 +193,7 @@ class GameWindow < Gosu::Window
             end
             if surrounding_tile_empty?(@game_board.board, :down, [row_idx, col_idx])
               @arrow_down.draw_rot(tile.center_bottom[0], tile.center_bottom[1], 3, 0)
-
             end
-          rescue StandardError => e
-            puts "e"
           end
         else
           @white_tile.draw(tile.x, tile.y, 2, 1, 1)

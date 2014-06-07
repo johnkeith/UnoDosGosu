@@ -78,6 +78,7 @@ module Click
   end
 
   def move_in_direction(tile, arrow_coord, tile_position)
+    return false if tile.locked
     if tile.center_top == arrow_coord
       surrounding_tile_empty?(@game_board.board,:up, tile_position) ? swap_tiles(:up, tile_position) : false #here to disablle arrows return
     elsif tile.center_right == arrow_coord

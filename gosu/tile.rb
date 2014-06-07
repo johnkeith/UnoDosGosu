@@ -15,7 +15,7 @@ class Tile
   # each tile has a color
   # each tile's color can be conditionally changed
 
-  attr_accessor :x, :y, :content, :color,
+  attr_accessor :x, :y, :content, :color, :locked,
                 :center_top, :center_left, :center_bottom, :center_right, :center
 
   def initialize(x, y, content = "empty")
@@ -28,6 +28,7 @@ class Tile
     @center_bottom = [@x + (CELL_SIZE_X / 2),@y + CELL_SIZE_Y - 13]
     @center_right = [@x + CELL_SIZE_X - 13, @y + (CELL_SIZE_Y / 2)]
     @center = [@x + (CELL_SIZE_X / 2), @y + (CELL_SIZE_Y / 2)]
+    @locked = false
   end
 
 end
