@@ -113,9 +113,17 @@ module Click
           @game_board.board[tile_position[0]-1][tile_position[1]].content == "empty" ? true : false
         end
       elsif direction == :right
-        @game_board.board[tile_position[0]][tile_position[1]+1].content == "empty" ? true : false
+        if tile_position[1] == 4
+          return false
+        else
+          @game_board.board[tile_position[0]][tile_position[1]+1].content == "empty" ? true : false
+        end
       elsif direction == :down
-        @game_board.board[tile_position[0]+1][tile_position[1]].content == "empty" ? true : false
+        if tile_position[0] == 4
+          return false
+        else
+          @game_board.board[tile_position[0]+1][tile_position[1]].content == "empty" ? true : false
+        end
       elsif direction == :left
         if tile_position[1] == 0
           return false
@@ -124,7 +132,7 @@ module Click
         end
       end
     rescue StandardError => e
-      puts "The error is #{e}"
+      puts "Position: #{tile_position}, direction: #{direction}"
     end
   end
 
