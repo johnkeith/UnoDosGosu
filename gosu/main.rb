@@ -92,6 +92,8 @@ class GameWindow < Gosu::Window
       arrow_and_tile = locate_click(mouse_x, mouse_y)
       if arrow_and_tile != nil && arrow_clicked?(mouse_x, mouse_y, arrow_and_tile[1])
         move_in_direction(arrow_and_tile[0], arrow_and_tile[1], arrow_and_tile[2])
+        # @game_board.colorize_words
+        # @game_board.score_board
       end
       if play_clicked?([mouse_x, mouse_y])
         puts "The mouse clicked at #{mouse_x}, #{mouse_y}"
@@ -170,20 +172,23 @@ class GameWindow < Gosu::Window
       row.each_with_index do |tile, col_idx|
         if tile.content != "empty"
           # draw_rect(tile.x, tile.y, CELL_SIZE_X, CELL_SIZE_Y, GREY)
+          #if tile.color == "Green"
+          #elsif tile.color == "Yellow"
+          #end
           @green_tile.draw(tile.x, tile.y, 2, 1, 1)
           draw_tile_letter(tile.center[0] - 10, tile.center[1] - 33, tile.content, @default_font, Gosu::Color::WHITE)
           # draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, TEAL)
           begin
-            if surrounding_tile_empty?(:up, [row_idx, col_idx])
+            if surrounding_tile_empty?(@game_board.board, :up, [row_idx, col_idx])
               @arrow_up.draw_rot(tile.center_top[0], tile.center_top[1], 3, 0)
             end
-            if surrounding_tile_empty?(:right, [row_idx, col_idx])
+            if surrounding_tile_empty?(@game_board.board, :right, [row_idx, col_idx])
               @arrow_right.draw_rot(tile.center_right[0], tile.center_right[1], 3, 0)
             end
-            if surrounding_tile_empty?(:left, [row_idx, col_idx])
+            if surrounding_tile_empty?(@game_board.board, :left, [row_idx, col_idx])
               @arrow_left.draw_rot(tile.center_left[0], tile.center_left[1], 3, 0)
             end
-            if surrounding_tile_empty?(:down, [row_idx, col_idx])
+            if surrounding_tile_empty?(@game_board.board, :down, [row_idx, col_idx])
               @arrow_down.draw_rot(tile.center_bottom[0], tile.center_bottom[1], 3, 0)
 
             end
@@ -333,6 +338,7 @@ class GameWindow < Gosu::Window
         if @counter.between?(58, 61)
           @counter = 0
           insert_tile(find_emtpy)
+          @game_board.find_words
         end
       end
   end

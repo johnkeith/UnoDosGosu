@@ -22,7 +22,7 @@ class Tile
     @x = x
     @y = y
     @content = content
-    @color = Gosu::Color.new(242, 242, 242)
+    @color = "Green"
     @center_top = [@x + (CELL_SIZE_X / 2),@y + 13]
     @center_left = [@x + 13, @y + (CELL_SIZE_Y / 2)]
     @center_bottom = [@x + (CELL_SIZE_X / 2),@y + CELL_SIZE_Y - 13]

@@ -7,12 +7,11 @@
 # Takes of care of filling in board with different tiles containing the letters
 #"U", "N", "O", "D", "S". The characteristics of a tile are located in the tile.rb file
 
-
-
 require_relative "tile"
-
+require_relative "click"
 
 class Board
+  include Click
   # a board has many tiles
   # a board must be filled at the start of the game
 
@@ -45,6 +44,99 @@ class Board
 
   def random_letter
     @letters.shuffle.pop
+  end
+
+  def find_words
+    words = {}
+    @board.each_with_index do |row, row_idx|
+      o_idx_in_row = row.each_index.select do |index|
+        row[index].content == "O"
+      end
+
+      if !o_idx_in_row.empty?
+        puts "Called for #{row_idx}"
+        o_idx_in_row.each do |col_idx|
+          words[row_idx] = []
+          begin
+          # if you are at teh far right side of the board, don't look right, only check left
+          if col_idx < row.length - 1 
+            if surrounding_tile_empty?(@board, :right, [row_idx, col_idx])
+              next
+            elsif col_idx - 1 >= 0 && row[col_idx + 1].content == "S"
+              puts "There an S to the right of #{row_idx}, #{col_idx}"
+              puts "The content next to that O is #{row[col_idx - 1].content}"
+              if row[col_idx - 1].content == "D"
+                "There is also a D to the left of #{row_idx}, #{col_idx}"
+                words[row_idx] << [[row_idx, col_idx-1], [row_idx, col_idx], [row_idx, col_idx+1]]
+              end
+            elsif col_idx - 1 >= 0 && row[col_idx + 1].content == "D"
+              if row[col_idx - 1].content == "S"
+                words[row_idx] << [[row_idx, col_idx-1], [row_idx, col_idx], [row_idx, col_idx+1]]
+              end
+            elsif col_idx + 2 < row.length && row[col_idx + 1].content == "N"
+              if row[col_idx + 2].content == "U"
+                words[row_idx] << [[row_idx, col_idx], [row_idx, col_idx+1], [row_idx, col_idx+2]]
+              end
+            else
+              next
+            end
+          #check two spaces to left
+          else
+            if surrounding_tile_empty?(@board, :left, [row_idx, col_idx])
+              next
+            elsif row[col_idx - 1] == "N" && row[col_idx - 2] == "U"
+              words[row_idx] << [[row_idx, col_idx], [row_idx, col_idx-1], [row_idx, col_idx-2]]
+            end
+          end
+
+          # if you are at the far rgight side, check left two spaces
+
+          if row_idx < @board.length - 1
+            if surrounding_tile_empty?(@board, :down, [row_idx, col_idx])
+              next
+            elsif row_idx + 1 < @board.length && @board[row_idx + 1][col_idx].content == "S"
+              if @board[row_idx - 1][col_idx].content == "D"
+                words[row_idx] << [[row_idx - 1, col_idx], [row_idx, col_idx], [row_idx + 1, col_idx]]
+              end
+            elsif row_idx + 1 < @board.length && @board[row_idx + 1][col_idx] == "D"
+              if @board[row_idx - 1][col_idx].content == "S"
+                words[row_idx] << [[row_idx - 1, col_idx], [row_idx, col_idx], [row_idx + 1, col_idx]]
+              end
+            elsif row_idx + 2 < @board.length && @board[row_idx + 1][col_idx].content == "N"
+              puts "There is an O with an N under it at #{row_idx}, #{col_idx}"
+              if @board[row_idx + 2][col_idx].content == "U"
+                 words[row_idx] << [[row_idx, col_idx], [row_idx, col_idx+1], [row_idx, col_idx+2]]
+              end
+            else
+              next
+            end
+            #if you are at the bottom of the board, only check two spaces up
+          else
+            if surrounding_tile_empty?(@board, :up, [row_idx, col_idx])
+              next
+            elsif @board[row_idx - 1][col_idx] == "N" && @board[row_idx - 2][col_idx] == "U"
+              words[row_idx] << [[row_idx, col_idx], [row_idx-1, col_idx], [row_idx-2, col_idx]]
+            end
+          end
+              
+         
+          rescue StandardError => e
+            p "The problem was in #{row_idx}, #{col_idx}"
+            p "#{e}"
+          end
+        end
+      end
+    p words
+  end
+            # row[col_idx].color = "Yellow"
+            # row[col_idx + 1].color = "Yellow"
+            # row[col_idx - 1].color = "Yellow"
+  def colorize_words
+  end
+
+  end
+
+  def score_board
   end
 
 end

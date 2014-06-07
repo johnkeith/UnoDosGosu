@@ -79,13 +79,13 @@ module Click
 
   def move_in_direction(tile, arrow_coord, tile_position)
     if tile.center_top == arrow_coord
-      surrounding_tile_empty?(:up, tile_position) ? swap_tiles(:up, tile_position) : false #here to disablle arrows return
+      surrounding_tile_empty?(@game_board.board,:up, tile_position) ? swap_tiles(:up, tile_position) : false #here to disablle arrows return
     elsif tile.center_right == arrow_coord
-      surrounding_tile_empty?(:right, tile_position) ? swap_tiles(:right, tile_position) : false
+      surrounding_tile_empty?(@game_board.board,:right, tile_position) ? swap_tiles(:right, tile_position) : false
     elsif tile.center_bottom == arrow_coord
-      surrounding_tile_empty?(:down, tile_position) ? swap_tiles(:down, tile_position) : false
+      surrounding_tile_empty?(@game_board.board,:down, tile_position) ? swap_tiles(:down, tile_position) : false
     elsif tile.center_left == arrow_coord
-      surrounding_tile_empty?(:left, tile_position) ? swap_tiles(:left, tile_position) : false
+      surrounding_tile_empty?(@game_board.board,:left, tile_position) ? swap_tiles(:left, tile_position) : false
     else
       "Some kinda error. Your tile was #{tile.to_s} and your arrow_coord were #{arrow_coord}."
     end
@@ -104,31 +104,31 @@ module Click
   #   end
   # end
 
-  def surrounding_tile_empty?(direction, tile_position)
+  def surrounding_tile_empty?(board, direction, tile_position)
     begin
       if direction == :up
         if tile_position[0] == 0
           return false
         else
-          @game_board.board[tile_position[0]-1][tile_position[1]].content == "empty" ? true : false
+          board[tile_position[0]-1][tile_position[1]].content == "empty" ? true : false
         end
       elsif direction == :right
         if tile_position[1] == 4
           return false
         else
-          @game_board.board[tile_position[0]][tile_position[1]+1].content == "empty" ? true : false
+          board[tile_position[0]][tile_position[1]+1].content == "empty" ? true : false
         end
       elsif direction == :down
         if tile_position[0] == 4
           return false
         else
-          @game_board.board[tile_position[0]+1][tile_position[1]].content == "empty" ? true : false
+          board[tile_position[0]+1][tile_position[1]].content == "empty" ? true : false
         end
       elsif direction == :left
         if tile_position[1] == 0
           return false
         else
-          @game_board.board[tile_position[0]][tile_position[1]-1].content == "empty" ? true : false
+          board[tile_position[0]][tile_position[1]-1].content == "empty" ? true : false
         end
       end
     rescue StandardError => e
