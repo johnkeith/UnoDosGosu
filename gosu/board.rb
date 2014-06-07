@@ -63,10 +63,7 @@ class Board
             if surrounding_tile_empty?(@board, :right, [row_idx, col_idx])
               next
             elsif col_idx - 1 >= 0 && row[col_idx + 1].content == "S"
-              puts "There an S to the right of #{row_idx}, #{col_idx}"
-              puts "The content next to that O is #{row[col_idx - 1].content}"
               if row[col_idx - 1].content == "D"
-                "There is also a D to the left of #{row_idx}, #{col_idx}"
                 words[row_idx] << [[row_idx, col_idx-1], [row_idx, col_idx], [row_idx, col_idx+1]]
               end
             elsif col_idx - 1 >= 0 && row[col_idx + 1].content == "D"
@@ -103,7 +100,6 @@ class Board
                 words[row_idx] << [[row_idx - 1, col_idx], [row_idx, col_idx], [row_idx + 1, col_idx]]
               end
             elsif row_idx + 2 < @board.length && @board[row_idx + 1][col_idx].content == "N"
-              puts "There is an O with an N under it at #{row_idx}, #{col_idx}"
               if @board[row_idx + 2][col_idx].content == "U"
                  words[row_idx] << [[row_idx, col_idx], [row_idx, col_idx+1], [row_idx, col_idx+2]]
               end
@@ -126,15 +122,20 @@ class Board
           end
         end
       end
+    end
     p words
+    return words
   end
-            # row[col_idx].color = "Yellow"
-            # row[col_idx + 1].color = "Yellow"
-            # row[col_idx - 1].color = "Yellow"
-  def colorize_words
+ def colorize_words(words)
+    words.each do |key, value|
+      value.each do |words|
+        words.each do |coords|
+          @board[coords[0]][coords[1]].color = "Yellow"
+        end
+      end
+    end
   end
 
-  end
 
   def score_board
   end
