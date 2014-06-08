@@ -55,9 +55,11 @@ class Board
   end
 
   def word_left?(x, y)
+    @board[x][y - 1].content == "N" && @board[x][y - 2].content == "U"
   end
 
   def word_right?(x, y)
+    @board[x][y + 1].content == "N" && @board[x][y + 2].content == "U"
   end
 
   def word_center_vert?(x, y)
@@ -66,38 +68,98 @@ class Board
   end
 
   def word_center_horz?(x, y)
+    @board[x][y + 1].content == "S" && @board[x][y - 1].content == "D" ||
+    @board[x][y + 1].content == "D" && @board[x][y - 1].content == "S"
   end
 
   def find_words
-    words = {}
+    words = []
     @board.each_with_index do |row, row_idx|
       o_idx_in_row = row.each_index.select do |index|
         row[index].content == "O"
       end
 
       if !o_idx_in_row.empty?
-        puts "#{o_idx_in_row}"
         begin
+        o_idx_in_row.each do |col_idx|
           if row_idx == 0
             if col_idx == 4
+
               #check down
+              if word_down?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
               #check left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+
             elsif col_idx == 3
+
               #check down
+              if word_down?(row_idx, col_idx)
+                puts "WORD DOWN"
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
               #check left
+              if word_left?(row_idx, col_idx)
+                puts "WORD LEFT"
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
               #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                puts "WORD CENTER HORZ"
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+
             elsif col_idx == 2
               #check down
+              if word_down?(row_idx, col_idx)
+                puts "WORD DOWN"
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
               #check left
+              if word_left?(row_idx, col_idx)
+                puts "WORD LEFT"
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
               #check right
+              if word_right?(row_idx, col_idx)
+                puts "Word right"
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
               #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                puts "WORD CENTER HORZ"
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
             elsif col_idx == 1
               #check down
+              if word_down?(row_idx, col_idx)
+                puts "WORD DOWN"
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
               #check right
+              if word_right?(row_idx, col_idx)
+                puts "Word right"
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
               #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                puts "WORD CENTER HORZ"
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
             elsif col_idx == 0
-              # check_down
-              # check_right
+             #check down
+              if word_down?(row_idx, col_idx)
+                puts "WORD DOWN"
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
+              #check right
+              if word_right?(row_idx, col_idx)
+                puts "Word right"
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
             end
           # elsif row_idx == 1
           #   if col_idx == 3 || col_idx == 4
@@ -140,8 +202,10 @@ class Board
           #     # check up
           #   end
         end
+        end
         rescue StandardError => e
         end
+
 
 
 
@@ -213,20 +277,18 @@ class Board
     p words
     return words
   end
- def colorize_words(words)
-    # @board.each_with_index do |row, row_idx|
-    #   row.each_with_index do |col, col_idx|
-    #     puts "I'm changing #{row_idx}, #{col_idx} to Green"
-    #     @board[row_idx][col_idx].color == "Green"
-    #   end
-    # end
-    
-    words.each do |key, value|
-      value.each do |words|
-        words.each do |coords|
+  
+  def colorize_words(words)
+    @board.each do |row|
+      row.each do |tile|
+        tile.color = "Green"
+      end
+    end
+    # array of words
+    words.each do |word|
+      #each word has three sets of coords
+      word.each do |coords|
           @board[coords[0]][coords[1]].color = "Yellow"
-          @board[coords[0]][coords[1]].locked = true
-        end
       end
     end
   end
