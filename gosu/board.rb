@@ -63,7 +63,7 @@ class Board
 
 
   def score_board(words)
-    puts words.count
+    words.count
   end
 
 # all assume starting x and y is an "O"
