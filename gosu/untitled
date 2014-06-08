@@ -1,0 +1,23 @@
+# check_down
+              if word_down?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
+              # check_left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              #check center vert
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
