@@ -62,7 +62,8 @@ class Board
   end
 
 
-  def score_board
+  def score_board(words)
+    puts words.count
   end
 
 # all assume starting x and y is an "O"
@@ -167,8 +168,8 @@ class Board
                 words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
               end
             end
-          elsif row_idx == 1
 # _------------------------ CHECK ROW 1
+          elsif row_idx == 1
             if col_idx == 4
               #check down
               if word_down?(row_idx, col_idx)
@@ -268,6 +269,21 @@ class Board
               # check up
               #check center horx
               #check center vert
+              if word_down?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
             elsif col_idx == 2
               # check_down
               # check_left
@@ -275,47 +291,208 @@ class Board
               # check up
               #check center horx
               #check center vert
+              if word_down?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
             elsif col_idx == 1
                 # check_down
               # check_right
               # check up
               #check center horx
               #check center vert
+            if word_down?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
             elsif col_idx == 0
                 # check_down
               # check_right
               # check up
               #check center vert
-                
-              
+              if word_down?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx + 2, col_idx]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
             end
-          # elsif row_idx == 3
-          #   if col_idx == 3 || col_idx == 4
-          #     #check left
-          #     #check up
-          #     #check center
-          #   else
-          #     # check_right
-          #     # check up
-          #     #check center
-          #   end
-          # elsif row_idx == 4
-          #   if col_idx == 3 || col_idx == 4
-          #     #check left
-          #     #check up
-          #   else
-          #     # check_right
-          #     # check up
-          #   end
-        end
+# -------------------- CHECK ROW 3
+          elsif row_idx == 3
+            if col_idx == 4
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              #check left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              #check center vert
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+            elsif col_idx == 3
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              # check_left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              #check center vert
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+            elsif col_idx == 2
+             # check_down
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              # check_left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              #check center vert
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+            elsif col_idx == 1
+               if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              #check center vert
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+            elsif col_idx == 0
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              #check center vert
+              if word_center_vert?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx + 1, col_idx], [row_idx - 1, col_idx]]
+              end
+            end
+          elsif row_idx == 4
+            if col_idx == 4
+              #check down
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              #check left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+            elsif col_idx == 3
+              #check down
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              #check left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+
+            elsif col_idx == 2
+              #check down
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              #check left
+              if word_left?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx - 1], [row_idx, col_idx - 2]]
+              end
+              #check right
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+            elsif col_idx == 1
+              #check down
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              #check right
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+              #check center horz
+              if word_center_horz?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx - 1]]
+              end
+            elsif col_idx == 0
+             #check down
+              if word_up?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx - 1, col_idx], [row_idx - 2, col_idx]]
+              end
+              #check right
+              if word_right?(row_idx, col_idx)
+                words << [[row_idx, col_idx], [row_idx, col_idx + 1], [row_idx, col_idx + 2]]
+              end
+            end
+          end
         end
         rescue StandardError => e
         end
-
-
-
-
-
         # o_idx_in_row.each do |col_idx|
         #   words[row_idx] = []
         #   # if you are at teh far right side of the board, don't look right, only check left

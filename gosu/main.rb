@@ -93,6 +93,7 @@ class GameWindow < Gosu::Window
       if arrow_and_tile != nil && arrow_clicked?(mouse_x, mouse_y, arrow_and_tile[1])
         move_in_direction(arrow_and_tile[0], arrow_and_tile[1], arrow_and_tile[2])
         full_words = @game_board.find_words
+        @game_board.score_board(full_words)
         @game_board.colorize_words(full_words)
       end
       if play_clicked?([mouse_x, mouse_y])
@@ -339,6 +340,7 @@ class GameWindow < Gosu::Window
           @counter = 0
           insert_tile(find_emtpy)
           full_words = @game_board.find_words
+          @game_board.score_board(full_words)
           @game_board.colorize_words(full_words)
         end
       end
