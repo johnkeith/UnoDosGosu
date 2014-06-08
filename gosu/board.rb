@@ -8,10 +8,8 @@
 #"U", "N", "O", "D", "S". The characteristics of a tile are located in the tile.rb file
 
 require_relative "tile"
-require_relative "click"
 
 class Board
-  include Click
   # a board has many tiles
   # a board must be filled at the start of the game
 
@@ -61,6 +59,14 @@ class Board
     end
   end
 
+  def board_full?
+    @board.each do |row|
+      row.each do |tile|
+        return false if tile.content == "empty"
+      end
+    end
+    return true
+  end
 
   def score_board(words)
     words.count

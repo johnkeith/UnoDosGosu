@@ -100,7 +100,7 @@ class GameWindow < Gosu::Window
       end
       if play_clicked?([mouse_x, mouse_y])
         @state = :running
-        7.times {insert_tile(find_emtpy)}
+        18.times {insert_tile(find_emtpy)}
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
       end
@@ -163,6 +163,9 @@ class GameWindow < Gosu::Window
       draw_score
     end
 
+    if @state == :finished
+      
+    end
 
     # if @state == :playing
     #   draw_pause_butt
@@ -354,6 +357,9 @@ class GameWindow < Gosu::Window
           full_words = @game_board.find_words
           @score = @game_board.score_board(full_words)
           @game_board.colorize_words(full_words)
+          if @game_board.board_full?
+            puts "The board is full!"
+          end
         end
       end
   end
