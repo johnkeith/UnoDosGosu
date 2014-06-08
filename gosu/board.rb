@@ -46,6 +46,28 @@ class Board
     @letters.shuffle.pop
   end
 
+# all assume starting x and y is an "O"
+  def word_up?(x, y)
+  end
+
+  def word_down?(x, y)
+    @board[x + 1][y].content == "N" && @board[x + 2][y].content == "U"
+  end
+
+  def word_left?(x, y)
+  end
+
+  def word_right?(x, y)
+  end
+
+  def word_center_vert?(x, y)
+    @board[x + 1][y].content == "S" && @board[x - 1][y].content == "D" ||
+    @board[x + 1][y].content == "D" && @board[x - 1][y].content == "S"
+  end
+
+  def word_center_horz?(x, y)
+  end
+
   def find_words
     words = {}
     @board.each_with_index do |row, row_idx|
@@ -56,8 +78,74 @@ class Board
       if !o_idx_in_row.empty?
         puts "#{o_idx_in_row}"
         begin
+          if row_idx == 0
+            if col_idx == 4
+              #check down
+              #check left
+            elsif col_idx == 3
+              #check down
+              #check left
+              #check center horz
+            elsif col_idx == 2
+              #check down
+              #check left
+              #check right
+              #check center horz
+            elsif col_idx == 1
+              #check down
+              #check right
+              #check center horz
+            elsif col_idx == 0
+              # check_down
+              # check_right
+            end
+          # elsif row_idx == 1
+          #   if col_idx == 3 || col_idx == 4
+          #     #check down
+          #     #check left
+          #     #check center
+          #   else
+          #     # check_down
+          #     # check_right
+          #     #check center
+          #   end
+          # elsif row_idx == 2
+          #   if col_idx == 3 || col_idx == 4
+          #     #check down
+          #     #check left
+          #     #check up
+          #     #check center
+          #   else
+          #     # check_down
+          #     # check_right
+          #     # check up
+          #     #check center
+          #   end
+          # elsif row_idx == 3
+          #   if col_idx == 3 || col_idx == 4
+          #     #check left
+          #     #check up
+          #     #check center
+          #   else
+          #     # check_right
+          #     # check up
+          #     #check center
+          #   end
+          # elsif row_idx == 4
+          #   if col_idx == 3 || col_idx == 4
+          #     #check left
+          #     #check up
+          #   else
+          #     # check_right
+          #     # check up
+          #   end
+        end
         rescue StandardError => e
         end
+
+
+
+
         # o_idx_in_row.each do |col_idx|
         #   words[row_idx] = []
         #   # if you are at teh far right side of the board, don't look right, only check left
