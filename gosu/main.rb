@@ -184,6 +184,7 @@ class GameWindow < Gosu::Window
     #draw color dots over white dots every second
     if @state == :running
       #draw_pause_butt
+      @background_music.stop
       draw_color_dots
       draw_score
     end
@@ -192,7 +193,7 @@ class GameWindow < Gosu::Window
       draw_finished
       draw_play_butt
       @score = 0
-      @background_music.play(volume = 3, speed = 1, looping = true)
+      @background_music.play
       @game_board = Board.new
     end
 
