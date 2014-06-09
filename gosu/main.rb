@@ -80,9 +80,12 @@ class GameWindow < Gosu::Window
     @arrow_left = Gosu::Image.new(self, "assets/left_arrow.png", false)
     @arrow_down = Gosu::Image.new(self, "assets/down_arrow.png", false)
     @play_button = Gosu::Image.new(self, "assets/play_up.png",false)
+    #@pause_button = Gosu::Image.new(self, "assets/pause_up.png",false)
 
-    @pause_button = Gosu::Image.new(self, "assets/pause_up.png",false)
-
+    #sounds
+    @tile_move_sound = Gosu::Sample.new(self, "assets/tile_move.wav")
+    @dos = Gosu::Sampe.new(self, "assets/dos.wav")
+    @uno = Gosu::Sample.new(self, "assets/uno.wav")
 
     @state = :begin
     @second_state = :initial
@@ -95,6 +98,7 @@ class GameWindow < Gosu::Window
     when Gosu::MsLeft
       arrow_and_tile = locate_click(mouse_x, mouse_y)
       if arrow_and_tile != nil && arrow_clicked?(mouse_x, mouse_y, arrow_and_tile[1])
+        @tile_move_sound.play(volume = 1, speed = 1, looping = false)
         move_in_direction(arrow_and_tile[0], arrow_and_tile[1], arrow_and_tile[2])
         full_words = @game_board.find_words
         @score = @game_board.score_board(full_words)
@@ -102,7 +106,11 @@ class GameWindow < Gosu::Window
       end
       if play_clicked?([mouse_x, mouse_y])
         @state = :running
+<<<<<<< HEAD
         6.times {insert_tile(find_emtpy)}
+=======
+        3.times {insert_tile(find_emtpy)}
+>>>>>>> f1ef91833233d24f5dbc0096dc39f5f2dae5dc03
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
       end
@@ -190,7 +198,7 @@ class GameWindow < Gosu::Window
           elsif tile.color == "Yellow"
             @yellow_tile.draw(tile.x, tile.y, 2, 1, 1)
           end
-          
+
           draw_tile_letter(tile.center[0] - 10, tile.center[1] - 33, tile.content, @default_font, Gosu::Color::WHITE)
           # draw_rect(tile.x + 2, tile.y + 2, CELL_SIZE_X - 4, CELL_SIZE_Y - 4, TEAL)
           if tile.locked
