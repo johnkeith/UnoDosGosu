@@ -55,7 +55,7 @@ NUM_WHITE_DOTS = 3
 class GameWindow < Gosu::Window
   include Click
   attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image, :play_button, :state,
-                :time, :counter, :pause_button, :pause_timer, :second_state, :score
+                :time, :counter, :pause_button, :pause_timer, :second_state, :score, :previous_words
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -87,11 +87,11 @@ class GameWindow < Gosu::Window
     @tile_move_sound = Gosu::Sample.new(self, "assets/tile_move.wav")
     @dos = Gosu::Sample.new(self, "assets/dos.wav")
     @uno = Gosu::Sample.new(self, "assets/uno.wav")
-
+    @punch = Gosu::Sample.new(self, "assets/punch.wav")
     @state = :begin
     @second_state = :initial
     @counter = 0
-    @previous_words = nil
+    @previous_words = []
   end
 
   def button_down(key)
@@ -110,19 +110,20 @@ class GameWindow < Gosu::Window
     when Gosu::MsLeft
       arrow_and_tile = locate_click(mouse_x, mouse_y)
       if arrow_and_tile != nil && arrow_clicked?(mouse_x, mouse_y, arrow_and_tile[1])
+        #play sound
         @tile_move_sound.play(volume = 1, speed = 1, looping = false)
         move_in_direction(arrow_and_tile[0], arrow_and_tile[1], arrow_and_tile[2])
-        full_words = @game_board.find_words
-        @score = @game_board.score_board(full_words)
-        @game_board.colorize_words(full_words)
+
+        find_and_play
+
       end
       if play_clicked?([mouse_x, mouse_y])
         @play_button = Gosu::Image.new(self, "assets/play_up.png",false)
         @state = :running
         @timer = TimerDown.new
-        23.times {insert_tile(find_emtpy)}
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
+        6.times {insert_tile(find_emtpy)}
       end
     when Gosu::KbEscape
       abort
@@ -388,13 +389,9 @@ class GameWindow < Gosu::Window
         if @counter.between?(58, 61)
           @counter = 0
           insert_tile(find_emtpy)
-          full_words = @game_board.find_words
-          # is full_words != to previous words
-          # call a method
-            # play the sound
-            # set previous_words = full words
-          @score = @game_board.score_board(full_words)
-          @game_board.colorize_words(full_words)
+
+          find_and_play
+
           if @game_board.board_full?
             puts "The board is full!"
             @final_score = @score
@@ -403,6 +400,18 @@ class GameWindow < Gosu::Window
           end
         end
       end
+  end
+
+  def find_and_play
+    full_words = @game_board.find_words
+
+      if full_words != @previous_words
+        @punch.play(volume = 2, speed = 1, looping = false)
+        @previous_words = full_words
+      end
+
+    @score = @game_board.score_board(full_words)
+    @game_board.colorize_words(full_words)
   end
 
   def draw_text(x, y, text, font)
