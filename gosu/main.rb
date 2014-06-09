@@ -126,7 +126,7 @@ class GameWindow < Gosu::Window
         @timer = TimerDown.new
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
-        6.times {insert_tile(find_emtpy)}
+        23.times {insert_tile(find_emtpy)}
       end
     when Gosu::KbEscape
       abort
@@ -350,7 +350,7 @@ class GameWindow < Gosu::Window
     # draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE)
     draw_quad(0, 0, Gosu::Color::WHITE, SCREEN_WIDTH, 0, Gosu::Color::WHITE,
             SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE, 0,  SCREEN_HEIGHT, Gosu::Color::WHITE, 5)
-    # @celebration.draw_rot(SCREEN_CENT_WIDTH, (SCREEN_HEIGHT / 2) - 130, 6, 0)
+    @celebration.draw_rot(SCREEN_CENT_WIDTH, (SCREEN_HEIGHT / 2) - 130, 6, 0)
     draw_text(CELL_SIZE_X / 2, SCREEN_HEIGHT / 2, "  ¡Felicidades! Your final score was: #{@final_score}", @default_font)
   end
 
