@@ -16,9 +16,11 @@ Enable sounds for an incredible and immersive experience.
 __THIS REPO INCLUDES AN EXECUTABLE PACKAGE THAT YOU CAN DOWLOAD__ Simply download this repo and unzip __unodos.app__. Launch
 the package on local machine to play indifinitely!
 
+This is the first version deployed. We will refactor some of the functionalities soon and make the game more fun and playable.
+
 For more info:
 
-johnkeith@outlook.com
+johnkeith@outlook.com //
 david.pointeau@tufts.edu
 
 
