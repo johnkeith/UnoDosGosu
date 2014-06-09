@@ -1,7 +1,7 @@
-unodos
+*unodos*
 ======
 
-UNO – DOS Game Design Document (Document created June 1st 2014)
+*unodos* Game Design Document (Document created June 1st 2014)
 
 David Pointeau & John Keith
 
@@ -10,13 +10,14 @@ Web + (Mobile, coming soon...)
 
 Overview:
 
-Uno – Dos is very similar to 2048 to the extent that the player interacts with tiles on a visual grid. 
+*unodos* is very similar to 2048 to the extent that the player interacts with tiles on a visual grid. 
 Instead of having numbers on the grid, each tile will have one of the following five letters: “U”, “N”, “S”, “D”, and “O”.  
 Nothing else will be on the grid a part from those five letters randomly spawned on the grid. 
 The grid will be 5 x 5 so a total of 25 tiles. The goal of the game is to move the tiles in such a way to obtain either 
 the words “UNO” or “DOS” by moving unique tiles in order to make them join with the correct sequence of letters. 
 Every 4 seconds (time to be determined) a new random letter will be spawned randomly on the board. 
 The movement dynamics will be specified further down.
+
 
 Victory/Loss conditions:
 
@@ -25,15 +26,15 @@ Unlike 2048, tiles don’t merge with each other and disappear. When an “UNO�
 letters making up the word changes colors signaling the player that he/she has achieved making one word. 
 The player can still decide to move those tiles at his own risk. Tiles are always in play. 
 The goal of the game is to have as many “UNO” and “DOS” when the gird is full and the game stops.
+
 		
-		                      
-		                      
 Movement Dynamics:
 
 Unlike 2048 where one movement moves all the tiles to the extremity of the grid when a direction is specified, 
 UNO – DOS only allows the player to move one tile at a time, one space at a time. For the web version, 
 click with the mouse and drop to the adjacent tile. For mobile device, just flick a tile in the direction you want.
 Movements have to be fast! Remember every 4 seconds a new letter is generated.
+
 
 Scoring:
 
@@ -79,7 +80,7 @@ words “UNO” or “DOS” are encountered, adding to the total score on top o
 “-“ will be added every time an unused letter is encountered, and the total score is decremented. 
 Also, the designs of the grid can be tweaked in different ways to make the game look nicer. 
 Implementation details will change as we code.
-Optional: Adding animations.
+
 
 Optional Add-ons:
 
@@ -90,6 +91,7 @@ so that he/she has time to plan strategy and take a breath.
 
 =>Add audio components? Every time the player scores an UNO the game could spit out “UNO” in a Spanish accent, 
 same for “DOS”.
+
 
 Playability:
 
