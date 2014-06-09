@@ -1,11 +1,11 @@
 unodos
 ======
 
-UNO – DOS Game Design Document
+UNO – DOS Game Design Document (Document created June 1st 2014)
 
 David Pointeau & John Keith
 
-Web + Mobile 
+Web + (Mobile, coming soon...)
 
 
 Overview:
@@ -15,7 +15,7 @@ Instead of having numbers on the grid, each tile will have one of the following 
 Nothing else will be on the grid a part from those five letters randomly spawned on the grid. 
 The grid will be 5 x 5 so a total of 25 tiles. The goal of the game is to move the tiles in such a way to obtain either 
 the words “UNO” or “DOS” by moving unique tiles in order to make them join with the correct sequence of letters. 
-Every 4 seconds (to be determined) a new random letter will be spawned randomly on the board. 
+Every 4 seconds (time to be determined) a new random letter will be spawned randomly on the board. 
 The movement dynamics will be specified further down.
 
 Victory/Loss conditions:
@@ -26,18 +26,6 @@ letters making up the word changes colors signaling the player that he/she has a
 The player can still decide to move those tiles at his own risk. Tiles are always in play. 
 The goal of the game is to have as many “UNO” and “DOS” when the gird is full and the game stops.
 		
-	              Different possible sequences:
-
-	             	=> U N O or D O S  (left to right)
-		
-                      U       D
-                =>    N  or   O    (top to bottom)
-		      O       S
-		                  
-		                      D
-		            =>    U N O  (combos)
-		                      S
-		                      
 		                      
 		                      
 Movement Dynamics:
