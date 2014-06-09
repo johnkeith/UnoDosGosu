@@ -8,7 +8,7 @@ David Pointeau & John Keith
 Web + (Mobile, coming soon...)
 
 
-_Overview:_
+__Overview:__
 
 *unodos* is very similar to 2048 to the extent that the player interacts with tiles on a visual grid. 
 Instead of having numbers on the grid, each tile will have one of the following five letters: “U”, “N”, “S”, “D”, and “O”.  
@@ -19,7 +19,7 @@ Every 4 seconds (time to be determined) a new random letter will be spawned rand
 The movement dynamics will be specified further down.
 
 
-_Victory/Loss conditions:_
+__Victory/Loss conditions:__
 
 There’s basically only one way the game ends: when all the tiles are filled with letters. 
 Unlike 2048, tiles don’t merge with each other and disappear. When an “UNO” or “DOS” is detected, that block of three 
@@ -28,7 +28,7 @@ The player can still decide to move those tiles at his own risk. Tiles are alway
 The goal of the game is to have as many “UNO” and “DOS” when the gird is full and the game stops.
 
 		
-_Movement Dynamics:_
+__Movement Dynamics:__
 
 Unlike 2048 where one movement moves all the tiles to the extremity of the grid when a direction is specified, 
 UNO – DOS only allows the player to move one tile at a time, one space at a time. For the web version, 
@@ -36,7 +36,7 @@ click with the mouse and drop to the adjacent tile. For mobile device, just flic
 Movements have to be fast! Remember every 4 seconds a new letter is generated.
 
 
-_Scoring:_
+__Scoring:__
 
 Unlike 2048 where the score is incremented every time the player makes a move, the scoring algorithm for UNO – DOS 
 will only kick in at the end of the game when the entire grid is full. The scoring function will go through the grid 
@@ -47,7 +47,7 @@ that have been unused and decrement the total temporary score composed of 1 and 
 encountered.
 
 
-_Starting Board:_
+__Starting Board:__
 
 At the start of the game, the word “UNO” will be placed in the center of the game. Under the board there will be a PLAY 
 button. As soon as the player clicks on that PLAY button, the letters “U”, “N”, “O” forming the original word “UNO” are 
@@ -59,7 +59,7 @@ As soon as the PLAY button is clicked, movement on the board is enabled and the 
 The 4 seconds give the player an extra chance to start the game right and get familiar with the movement dynamics. 
 
 
-_Visual Elements:_
+__Visual Elements:__
 
 In order to make the game playable and give the player a good visual representation of what is happening every turn,
 tiles with different letters will have different colors. Empty tiles will be represented by the color grey. 
@@ -82,7 +82,7 @@ Also, the designs of the grid can be tweaked in different ways to make the game 
 Implementation details will change as we code.
 
 
-_Optional Add-ons:_
+__Optional Add-ons:__
 
 =>Maybe give the player one/two/three possible pause buttons in order to pause the game for ten seconds at any given time 
 so that he/she has time to plan strategy and take a breath.
@@ -93,6 +93,6 @@ so that he/she has time to plan strategy and take a breath.
 same for “DOS”.
 
 
-_Playability:_
+__Playability:__
 
 As soon as the game is over and the scoring is completed the player should be able to restart the game very fast.
