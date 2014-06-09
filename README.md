@@ -3,4 +3,4 @@ unodos
 
 Implementation in Ruby using Gosu!
 
-This repo contains all the code for _unodos_ !
+This repo contains all the code for __unodos__ !
