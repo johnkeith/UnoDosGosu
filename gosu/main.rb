@@ -62,7 +62,7 @@ class GameWindow < Gosu::Window
     @default_font = Gosu::Font.new(self, "Impact", 56)
     @game_board = Board.new
     self.caption = "UnoDos"
-    @timer = TimerDown.new
+    @timer = nil
     @pause_timer = PauseTimer.new
     @color_dot = Gosu::Image.new(self, Circle.new(RADIUS), false)
     @color_img = Gosu::Image.new(self, "assets/red_circle.png", false)
@@ -70,6 +70,7 @@ class GameWindow < Gosu::Window
     @score = 0
     @final_score = 0
 
+    @celebration = Gosu::Image.new(self, "assets/celebration.png", false)
     @instructions = Gosu::Image.new(self, "assets/instructions.png", false)
     @board_bg = Gosu::Image.new(self, "assets/board_bg.png", false)
     @white_tile = Gosu::Image.new(self, "assets/white_tile.png", false)
@@ -84,9 +85,10 @@ class GameWindow < Gosu::Window
 
     #sounds
     @tile_move_sound = Gosu::Sample.new(self, "assets/tile_move.wav")
+    @dos = Gosu::Sample.new(self, "assets/dos.wav")
+    @uno = Gosu::Sample.new(self, "assets/uno.wav")
     @punch = Gosu::Sample.new(self, "assets/punch.wav")
     @background_music = Gosu::Song.new(self, "assets/la_cucaracha.mp3")
-
 
     @state = :begin
     @second_state = :initial
@@ -95,6 +97,17 @@ class GameWindow < Gosu::Window
   end
 
   def button_down(key)
+    case key
+    when Gosu::MsLeft
+      if play_clicked?([mouse_x, mouse_y])
+        @play_button = Gosu::Image.new(self, "assets/play_down.png",false)
+        # @state = :running
+        # 4.times {insert_tile(find_emtpy)}
+      end
+    end
+  end
+
+  def button_up(key)
     case key
     when Gosu::MsLeft
       arrow_and_tile = locate_click(mouse_x, mouse_y)
@@ -108,7 +121,11 @@ class GameWindow < Gosu::Window
 
       end
       if play_clicked?([mouse_x, mouse_y])
+        @play_button = Gosu::Image.new(self, "assets/play_up.png",false)
         @state = :running
+        @timer = TimerDown.new
+      # elsif pause_clicked?([mouse_x, mouse_y])
+      #   @second_state = :paused
         6.times {insert_tile(find_emtpy)}
       end
     when Gosu::KbEscape
@@ -177,7 +194,6 @@ class GameWindow < Gosu::Window
       @score = 0
       @background_music.play(volume = 3, speed = 1, looping = true)
       @game_board = Board.new
-      @timer = TimerDown.new
     end
 
     # if @state == :playing
@@ -333,6 +349,7 @@ class GameWindow < Gosu::Window
     # draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE)
     draw_quad(0, 0, Gosu::Color::WHITE, SCREEN_WIDTH, 0, Gosu::Color::WHITE,
             SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE, 0,  SCREEN_HEIGHT, Gosu::Color::WHITE, 5)
+    # @celebration.draw_rot(SCREEN_CENT_WIDTH, (SCREEN_HEIGHT / 2) - 130, 6, 0)
     draw_text(CELL_SIZE_X / 2, SCREEN_HEIGHT / 2, "  ¡Felicidades! Your final score was: #{@final_score}", @default_font)
   end
 
