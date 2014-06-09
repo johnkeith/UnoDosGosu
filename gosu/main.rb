@@ -62,7 +62,7 @@ class GameWindow < Gosu::Window
     @default_font = Gosu::Font.new(self, "Impact", 56)
     @game_board = Board.new
     self.caption = "UnoDos"
-    @timer = TimerDown.new
+    @timer = nil
     @pause_timer = PauseTimer.new
     @color_dot = Gosu::Image.new(self, Circle.new(RADIUS), false)
     @color_img = Gosu::Image.new(self, "assets/red_circle.png", false)
@@ -70,6 +70,7 @@ class GameWindow < Gosu::Window
     @score = 0
     @final_score = 0
 
+    @celebration = Gosu::Image.new(self, "assets/celebration.png", false)
     @instructions = Gosu::Image.new(self, "assets/instructions.png", false)
     @board_bg = Gosu::Image.new(self, "assets/board_bg.png", false)
     @white_tile = Gosu::Image.new(self, "assets/white_tile.png", false)
@@ -84,7 +85,7 @@ class GameWindow < Gosu::Window
 
     #sounds
     @tile_move_sound = Gosu::Sample.new(self, "assets/tile_move.wav")
-    @dos = Gosu::Sampe.new(self, "assets/dos.wav")
+    @dos = Gosu::Sample.new(self, "assets/dos.wav")
     @uno = Gosu::Sample.new(self, "assets/uno.wav")
 
     @state = :begin
@@ -96,6 +97,17 @@ class GameWindow < Gosu::Window
   def button_down(key)
     case key
     when Gosu::MsLeft
+      if play_clicked?([mouse_x, mouse_y])
+        @play_button = Gosu::Image.new(self, "assets/play_down.png",false)
+        # @state = :running
+        # 4.times {insert_tile(find_emtpy)}
+      end
+    end
+  end
+
+  def button_up(key)
+    case key
+    when Gosu::MsLeft
       arrow_and_tile = locate_click(mouse_x, mouse_y)
       if arrow_and_tile != nil && arrow_clicked?(mouse_x, mouse_y, arrow_and_tile[1])
         @tile_move_sound.play(volume = 1, speed = 1, looping = false)
@@ -105,12 +117,10 @@ class GameWindow < Gosu::Window
         @game_board.colorize_words(full_words)
       end
       if play_clicked?([mouse_x, mouse_y])
+        @play_button = Gosu::Image.new(self, "assets/play_up.png",false)
         @state = :running
-<<<<<<< HEAD
-        6.times {insert_tile(find_emtpy)}
-=======
-        3.times {insert_tile(find_emtpy)}
->>>>>>> f1ef91833233d24f5dbc0096dc39f5f2dae5dc03
+        @timer = TimerDown.new
+        23.times {insert_tile(find_emtpy)}
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
       end
@@ -178,7 +188,6 @@ class GameWindow < Gosu::Window
       draw_play_butt
       @score = 0
       @game_board = Board.new
-      @timer = TimerDown.new
     end
 
     # if @state == :playing
@@ -334,6 +343,7 @@ class GameWindow < Gosu::Window
     # draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE)
     draw_quad(0, 0, Gosu::Color::WHITE, SCREEN_WIDTH, 0, Gosu::Color::WHITE,
             SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE, 0,  SCREEN_HEIGHT, Gosu::Color::WHITE, 5)
+    # @celebration.draw_rot(SCREEN_CENT_WIDTH, (SCREEN_HEIGHT / 2) - 130, 6, 0)
     draw_text(CELL_SIZE_X / 2, SCREEN_HEIGHT / 2, "  ¡Felicidades! Your final score was: #{@final_score}", @default_font)
   end
 
