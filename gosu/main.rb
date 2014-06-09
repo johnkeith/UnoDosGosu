@@ -55,7 +55,7 @@ NUM_WHITE_DOTS = 3
 class GameWindow < Gosu::Window
   include Click
   attr_accessor :board, :default_font, :timer, :color_dot, :timer_to_display, :image, :play_button, :state,
-                :time, :counter, :pause_button, :pause_timer, :second_state, :score, :previous_words
+                :time, :counter, :pause_button, :pause_timer, :second_state, :score, :previous_words, :background_music
 
   def initialize
     super(SCREEN_WIDTH, SCREEN_HEIGHT, false)
@@ -85,6 +85,7 @@ class GameWindow < Gosu::Window
     #sounds
     @tile_move_sound = Gosu::Sample.new(self, "assets/tile_move.wav")
     @punch = Gosu::Sample.new(self, "assets/punch.wav")
+    @background_music = Gosu::Song.new(self, "assets/la_cucaracha.mp3")
 
 
     @state = :begin
@@ -100,8 +101,9 @@ class GameWindow < Gosu::Window
       if arrow_and_tile != nil && arrow_clicked?(mouse_x, mouse_y, arrow_and_tile[1])
         #play sound
         @tile_move_sound.play(volume = 1, speed = 1, looping = false)
-        move_in_direction(arrow_and_tile[0], arrow_and_tile[1], arrow_and_tile[2])
 
+        move_in_direction(arrow_and_tile[0], arrow_and_tile[1], arrow_and_tile[2])
+        #play punch sound
         find_and_play
 
       end
@@ -148,6 +150,7 @@ class GameWindow < Gosu::Window
 
     #draw play button
     if @state == :begin
+      @background_music.play
       draw_play_butt
       draw_instructions
       #draw_pause_butt
@@ -172,6 +175,7 @@ class GameWindow < Gosu::Window
       draw_finished
       draw_play_butt
       @score = 0
+      @background_music.play(volume = 3, speed = 1, looping = true)
       @game_board = Board.new
       @timer = TimerDown.new
     end
