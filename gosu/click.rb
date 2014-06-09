@@ -62,7 +62,7 @@ module Click
   end
 
   def play_clicked?(click)
-    if @state == :begin
+    if @state == :begin || @state == :finished
       (click[0] - (SCREEN_CENT_WIDTH - 50)).abs <= 90 && (click[1] - SCREEN_TOP.abs) <= 80
     else
       false

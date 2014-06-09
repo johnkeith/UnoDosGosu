@@ -68,6 +68,7 @@ class GameWindow < Gosu::Window
     @color_img = Gosu::Image.new(self, "assets/red_circle.png", false)
     @time = ""
     @score = 0
+    @final_score = 0
 
     @instructions = Gosu::Image.new(self, "assets/instructions.png", false)
     @board_bg = Gosu::Image.new(self, "assets/board_bg.png", false)
@@ -86,6 +87,7 @@ class GameWindow < Gosu::Window
     @state = :begin
     @second_state = :initial
     @counter = 0
+    @previous_words = nil
   end
 
   def button_down(key)
@@ -100,7 +102,7 @@ class GameWindow < Gosu::Window
       end
       if play_clicked?([mouse_x, mouse_y])
         @state = :running
-        21.times {insert_tile(find_emtpy)}
+        6.times {insert_tile(find_emtpy)}
       # elsif pause_clicked?([mouse_x, mouse_y])
       #   @second_state = :paused
       end
@@ -165,6 +167,10 @@ class GameWindow < Gosu::Window
 
     if @state == :finished
       draw_finished
+      draw_play_butt
+      @score = 0
+      @game_board = Board.new
+      @timer = TimerDown.new
     end
 
     # if @state == :playing
@@ -309,7 +315,7 @@ class GameWindow < Gosu::Window
   end
 
   def draw_play_butt
-    @play_button.draw_rot(SCREEN_CENT_WIDTH + 12, SCREEN_TOP + 15, 4, 0)
+    @play_button.draw_rot(SCREEN_CENT_WIDTH + 12, SCREEN_TOP + 15, 6, 0)
   end
 
   def draw_instructions
@@ -317,9 +323,10 @@ class GameWindow < Gosu::Window
   end
 
   def draw_finished
-    draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE)
-    draw_quad(0, 0, Gosu::Color::WHITE, x + width, y, color,
-            x + width, y + height, color, x, y + height, color)
+    # draw_rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE)
+    draw_quad(0, 0, Gosu::Color::WHITE, SCREEN_WIDTH, 0, Gosu::Color::WHITE,
+            SCREEN_WIDTH, SCREEN_HEIGHT, Gosu::Color::WHITE, 0,  SCREEN_HEIGHT, Gosu::Color::WHITE, 5)
+    draw_text(CELL_SIZE_X / 2, SCREEN_HEIGHT / 2, "  ¡Felicidades! Your final score was: #{@final_score}", @default_font)
   end
 
   def restart_game
@@ -332,7 +339,6 @@ class GameWindow < Gosu::Window
 
   def draw_color_dots
       @time = @timer.update_time
-
 
       if (time == "Time: 01" || time == "Time: 02" || time == "Time: 03")
         # @color_dot.draw_rot(BEGIN_DOTS + 60, SCREEN_BOTTOM, 1, 0, 0, 0,
@@ -365,18 +371,24 @@ class GameWindow < Gosu::Window
           @counter = 0
           insert_tile(find_emtpy)
           full_words = @game_board.find_words
+          # is full_words != to previous words
+          # call a method
+            # play the sound
+            # set previous_words = full words
           @score = @game_board.score_board(full_words)
           @game_board.colorize_words(full_words)
           if @game_board.board_full?
             puts "The board is full!"
+            @final_score = @score
             @state = :finished
+
           end
         end
       end
   end
 
   def draw_text(x, y, text, font)
-    font.draw(text, x, y, 1, 1, 1, Gosu::Color::BLACK)
+    font.draw(text, x, y, 10, 1, 1, Gosu::Color::BLACK)
   end
 
   def draw_rect(x, y, width, height, color)
